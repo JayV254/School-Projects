@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>Smart Agriculture User Portal</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/oAUTH.css">
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="../amazon-cognito-auth-js/dist/amazon-cognito-auth.min.js"></script>
+</head>
+
+<body  onload="onLoad()">
+  <div>
+      <p id="statusNotAuth" title="Status">
+          Sign-In to Continue
+      </p>
+      <p id="statusAuth" title="Status">
+          You have Signed-In
+      </p>
+  </div>
+
+	<div class="tabsWell">
+		<div id="startButtons">
+			<div class="button">
+				<a class="nav-tabs" id="signInButton" href="javascript:void(0)" title="Sign in">Sign In</a>
+			</div>
+		</div>
+		<div class="tab-content">
+			<div class="tab-pane" id="userdetails">
+				<p class="text-icon" title="Minimize" id="tabIcon" onclick="toggleTab('usertab');">_</p>
+				<br>
+				<h2 id="usertabtitle">Tokens</h2>
+				<div class="user-form" id="usertab">
+					<pre id="idtoken"> ... </pre>
+          <pre id="acctoken"> ... </pre>
+          <pre id="reftoken"> ... </pre>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+	
+	// Operations when the web page is loaded.
+	function onLoad() {
+		var i, items, tabs;
+		items = document.getElementsByClassName("tab-pane");
+		// delete style panes
+		for (i = 0; i < items.length; i++) {
+			items[i].style.display = 'none';
+		}
+		document.getElementById("statusNotAuth").style.display = 'block';
+		document.getElementById("statusAuth").style.display = 'none';
+		
+		// Initiatlize CognitoAuth object
+		var auth = initCognitoSDK();
+		// create sign in button
+		document.getElementById("signInButton").addEventListener("click", function() {
+			userButton(auth);
+		});
+		var curUrl = window.location.href;
+		auth.parseCognitoWebResponse(curUrl);
+	}
+  	
+	// Operation when tab is closed.
+	function closeTab(tabName) {
+	  document.getElementById(tabName).style.display = 'none';
+	}
+  	
+	// Operation when tab is opened.
+  	function openTab(tabName) {
+		document.getElementById(tabName).style.display = 'block';
+	}
+  	
+	// Operations about toggle tab.
+	function toggleTab(tabName) {
+		if (document.getElementById("usertab").style.display == 'none') {
+			document.getElementById("usertab").style.display = 'block';
+			document.getElementById("tabIcon").innerHTML = '_';
+		} else {
+			document.getElementById("usertab").style.display = 'none';
+			document.getElementById("tabIcon").innerHTML = '+';
+		}
+	}
+  	
+	// Operations when showing message.
+	function showMessage(msgTitle, msgText, msgDetail) {
+		var msgTab = document.getElementById('message');
+		document.getElementById('messageTitle').innerHTML = msgTitle;
+		document.getElementById('messageText').innerHTML = msgText;
+		document.getElementById('messageDetail').innerHTML = msgDetail;
+		msgTab.style.display = "block";
+	}
+  	
+	// Perform user operations.
+	function userButton(auth) {
+		
+		var state = document.getElementById('signInButton').innerHTML;
+		// if user isn't signed in allow sign in flow
+		if (state === "Sign Out") {
+			document.getElementById("signInButton").innerHTML = "Sign In";
+			auth.signOut();
+			showSignedOut();
+		} else {
+			auth.getSession();
+		}
+	}
+	
+	// Operations when signed in.
+  	function showSignedIn(session) {
+		document.getElementById("statusNotAuth").style.display = 'none';
+		document.getElementById("statusAuth").style.display = 'block';
+		document.getElementById("signInButton").innerHTML = "Sign Out";
+		if (session) {
+			// session has been created get the token
+			var idToken = session.getIdToken().getJwtToken();
+			if (idToken) {
+				var payload = idToken.split('.')[1];
+				var tokenobj = JSON.parse(atob(payload));
+				var formatted = JSON.stringify(tokenobj, undefined, 2);
+				document.getElementById('idtoken').innerHTML = formatted;
+			}
+
+			// use token to grant authentication
+			var accToken = session.getAccessToken().getJwtToken();
+			if (accToken) {
+				var payload = accToken.split('.')[1];
+				var tokenobj = JSON.parse(atob(payload));
+				var formatted = JSON.stringify(tokenobj, undefined, 2);
+				document.getElementById('acctoken').innerHTML = formatted;
+			}
+			var refToken = session.getRefreshToken().getToken();
+			if (refToken) {
+				document.getElementById('reftoken').innerHTML = refToken.substring(1, 20);
+			}
+		}
+		openTab("userdetails");
+	}
+
+
+	// Operations when signed out.
+	function showSignedOut() {
+		document.getElementById("statusNotAuth").style.display = 'block';
+		document.getElementById("statusAuth").style.display = 'none';
+		document.getElementById('idtoken').innerHTML = " ... ";
+		document.getElementById('acctoken').innerHTML = " ... ";
+		document.getElementById('reftoken').innerHTML = " ... ";
+		closeTab("userdetails");
+	}
+  	
+	// Initialize a cognito auth object.
+	function initCognitoSDK() {
+		// create data to be passed into cognito object constructor
+		var authData = {
+			ClientId : '5n30litsm942ns1u2fujj4f55i', // Your client id here
+			AppWebDomain : 'smartagauth.auth.us-east-2.amazoncognito.com', 
+			TokenScopesArray : ['openid','email','phone', 'profile'],
+			RedirectUriSignIn : 'https://mysmartag.com/web',
+			RedirectUriSignOut : 'https://mysmartag.com/web',
+	                UserPoolId : 'us-east-2_7p1yiG5yR', 
+		};
+		var auth = new AmazonCognitoIdentity.CognitoAuth(authData);
+		
+		// You can also set state parameter 
+		// auth.setState(<state parameter>);  
+		auth.userhandler = {
+			onSuccess: function(result) {
+				alert("Sign in success");
+				showSignedIn(result);
+			},
+			onFailure: function(err) {
+				console.log("Error!" + err);
+			}
+		};
+	
+		// The default response_type is "token", uncomment the next line will make it be "code".
+		// auth.useCodeGrantFlow();
+		return auth;
+	}
+	</script>
+</body>
+</html>
