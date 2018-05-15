@@ -1,0 +1,13 @@
+int main() {
+    int a,count;
+    a = 1;
+    count = 0;
+    puts("If you started with 1 dollar and doubled it every day it would take this many day to reach 1 million dollars: ");
+    repeat {
+        count = count + 1;
+        a = 2 * a;
+    } until (a > 1000000);
+    putn(count);
+    return 0;
+
+}

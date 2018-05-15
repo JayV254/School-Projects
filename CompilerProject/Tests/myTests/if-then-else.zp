@@ -1,0 +1,17 @@
+int main() {
+    int a;
+    puts("This function will square an input number...input a number that is less than 20 below\n");
+    a = getnum();
+
+    if(a < 20) then {
+        puts("The square of your number is: ");
+	putn(a*a);
+    }
+    else {
+        puts("Sorry your number is greater than 20");
+	puts("\n");
+    }
+    
+    return 0;
+}
+

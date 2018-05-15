@@ -1,0 +1,8 @@
+int a;
+
+int main() {
+        a = 10;
+        putn(a);
+        return 0;
+}
+

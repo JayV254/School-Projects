@@ -1,0 +1,10 @@
+int main()
+{
+     int counter;
+     for(counter = 0; counter < 5; counter = counter + 1)
+     {
+       putn(counter);
+     }
+     return 0;
+}
+

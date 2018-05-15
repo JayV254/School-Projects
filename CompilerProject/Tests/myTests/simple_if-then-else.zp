@@ -1,0 +1,13 @@
+int main() {
+    int a;
+    a = 10;
+
+    if(a < 20) then {
+        puts("The number is less than 10");
+    }
+    else {
+        puts("The  number is greater than 20");
+    }
+
+    return 0;
+}

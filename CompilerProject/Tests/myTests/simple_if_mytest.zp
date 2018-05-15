@@ -1,0 +1,11 @@
+int main() {
+
+        int a;
+        a = 10;
+
+        if(a = 10) {
+                puts("a is equal to 10");
+        }
+
+        return 0;
+}

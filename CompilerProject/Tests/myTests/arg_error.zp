@@ -1,0 +1,13 @@
+int function(int a) {
+    return a;
+}
+
+int main() {
+
+    int a,b;
+    a = 20;
+    b = function(a,b);
+
+    return 0;
+
+}

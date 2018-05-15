@@ -1,0 +1,21 @@
+int main() {
+
+        int a;
+        int b;
+
+        a = 10;
+        b = 10;
+
+        puts("a is");
+        putn(a);
+        puts("b is");
+        putn(b);
+
+        if(a = b) then {
+                puts("a and b are equal!");
+		puts("\n");
+        }
+
+        return 0;
+}
+

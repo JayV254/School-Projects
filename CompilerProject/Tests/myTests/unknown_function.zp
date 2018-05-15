@@ -1,0 +1,15 @@
+int eddy(int a){
+
+    return 0;
+}
+
+
+int main(){
+
+    int a;
+    a = 0;
+
+    eddy1(a);
+
+    return 0;
+}

@@ -1,0 +1,19 @@
+int main() {
+        int a;
+        int b;
+	int result;
+
+        a = 3;
+        b = 10;
+        result = a * b;
+
+        if (result < 20) {
+                puts("a times b is less than 20");
+        }
+        else {
+                puts("a times b is greater than 20");
+        }
+
+        return 0;
+}
+

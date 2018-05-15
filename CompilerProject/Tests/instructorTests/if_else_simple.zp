@@ -1,0 +1,28 @@
+
+if main() {
+	int a;
+	int b;
+	int c;
+	int d;
+
+	a = 1;
+	b = 2;
+	c = 3;
+	d = 4;
+
+	if (a < b) {
+		puts("a is less than b");
+	}
+	else {
+		puts("b is less than a");
+	}
+
+	if (d < c) {
+		puts("d is less than c");
+	}
+	else {
+		puts("c is less than d");
+	}
+
+	return 0;
+}
