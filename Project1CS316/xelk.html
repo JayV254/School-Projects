@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Project 1: CS316</title>
+    <meta name="description" content="Project 1 for CS316">
+    <meta name="author" content="Jesse Vaught">
+
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+  </head>
+  <body>
+    <h3 style="text-decoration:underline">1. Select Units</h3>
+    <p>Convert:</p>
+    <select name = "origunits" form="convertform">
+      <option value="parsec">Parsec</option>
+      <option value="lightyear">Lightyear</option>
+      <option value="kilometer">Kilometer</option>
+      <option value="xlarn">Xlarn</option>
+      <option value="galacticyear">Galacticyear</option>
+      <option value="terrestrialyear">Terrestrialyear</option>
+      <option value="xarnyear">Xarnyear</option>
+      <option value="terrestrialminute">Terrestrialminute</option>
+    </select>
+    <p>To:</p>
+    <select name = "convunits" form="convertform">
+      <option value="parsec">Parsec</option>
+      <option value="lightyear">Lightyear</option>
+      <option value="kilometer">Kilometer</option>
+      <option value="xlarn">Xlarn</option>
+      <option value="galacticyear">Galacticyear</option>
+      <option value="terrestrialyear">Terrestrialyear</option>
+      <option value="xarnyear">Xarnyear</option>
+      <option value="terrestrialminute">Terrestrialminute</option>
+    </select> 
+    <form method="get" action="do_xelk.cgi" id="convertform">
+      <h3 style="text-decoration:underline">Amount of Original Units:</h3>
+      <input type="text" name="numunits"><br>
+      <h3 style="text-decoration:underline">Conversion factor (default is 1)</h3>
+      <input type="text" name="convfactor" value="1.0"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+  </html>
